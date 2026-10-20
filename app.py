@@ -59,7 +59,6 @@ def init_db():
             email TEXT NOT NULL UNIQUE,
             department TEXT NOT NULL
         );
-
         CREATE TABLE IF NOT EXISTS courses (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
