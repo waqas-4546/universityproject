@@ -1,0 +1,22 @@
+
+{% extends "base.html" %}
+{% block title %}Admin Login{% endblock %}
+
+{% block content %}
+<div class="login-card">
+    <h1>University Management</h1>
+    <p class="muted">Sign in to your admin account</p>
+
+    <form method="POST" action="{{ url_for('login') }}">
+        <label>Username</label>
+        <input type="text" name="username" required
+               autocomplete="username" placeholder="Enter username">
+
+        <label>Password</label>
+        <input type="password" name="password" required
+               autocomplete="current-password" placeholder="Enter password">
+
+        <button type="submit" class="primary full">Login</button>
+    </form>
+</div>
+{% endblock %}

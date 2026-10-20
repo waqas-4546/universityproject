@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}University Management System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% if session.get('user_id') %}
+    <aside class="sidebar">
+        <h2>UniManage</h2>
+        <p class="muted">Administration</p>
+        <nav>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('manage_section', section='students') }}">Students</a>
+            <a href="{{ url_for('manage_section', section='teachers') }}">Teachers</a>
+            <a href="{{ url_for('manage_section', section='courses') }}">Courses</a>
+        </nav>
+        <form action="{{ url_for('logout') }}" method="POST">
+            <button class="logout" type="submit">Logout</button>
+        </form>
+    </aside>
+    {% endif %}
+
+    <main class="{% if session.get('user_id') %}main-content{% else %}login-main{% endif %}">
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+            <div class="alert {{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

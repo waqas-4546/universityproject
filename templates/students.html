@@ -1,0 +1,72 @@
+
+{% extends "base.html" %}
+{% block title %}{{ config.title }}{% endblock %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>{{ config.title }}</h1>
+        <p class="muted">Add and manage {{ config.title|lower }} records.</p>
+    </div>
+</header>
+
+<section class="panel">
+    <h2>Add {{ config.title[:-1] if config.title.endswith('s') else config.title }}</h2>
+
+    <form method="POST" class="record-form">
+        {% for field, label, kind in config.fields %}
+            <div>
+                <label for="{{ field }}">{{ label }}</label>
+                <input id="{{ field }}" name="{{ field }}" type="{{ kind }}"
+                       {% if kind == 'number' and field == 'semester' %}
+                           min="1" max="8"
+                       {% elif kind == 'number' and field == 'credit_hours' %}
+                           min="1" max="6"
+                       {% endif %}
+                       required>
+            </div>
+        {% endfor %}
+        <button class="primary" type="submit">Add Record</button>
+    </form>
+</section>
+
+<section class="panel">
+    <h2>All {{ config.title }}</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    {% for field, label, kind in config.fields %}
+                        <th>{{ label }}</th>
+                    {% endfor %}
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record.id }}</td>
+                    {% for field, label, kind in config.fields %}
+                        <td>{{ record[field] }}</td>
+                    {% endfor %}
+                    <td>
+                        <form method="POST"
+                              action="{{ url_for('delete_record', section=section, record_id=record.id) }}"
+                              onsubmit="return confirm('Delete this record?');">
+                            <button class="danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="{{ config.fields|length + 2 }}">
+                        No records found. Add your first record above.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

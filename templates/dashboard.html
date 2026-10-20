@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>Admin Dashboard</h1>
+        <p class="muted">Welcome, {{ session.get('username') }}!</p>
+    </div>
+</header>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <p>Total Students</p>
+        <h2>{{ counts.students }}</h2>
+        <a href="{{ url_for('manage_section', section='students') }}">Manage Students →</a>
+    </div>
+    <div class="stat-card">
+        <p>Total Teachers</p>
+        <h2>{{ counts.teachers }}</h2>
+        <a href="{{ url_for('manage_section', section='teachers') }}">Manage Teachers →</a>
+    </div>
+    <div class="stat-card">
+        <p>Total Courses</p>
+        <h2>{{ counts.courses }}</h2>
+        <a href="{{ url_for('manage_section', section='courses') }}">Manage Courses →</a>
+    </div>
+</div>
+
+<section class="panel">
+    <h2>System Overview</h2>
+    <p>Manage student records, teacher information and university courses from the sidebar.</p>
+</section>
+{% endblock %}
